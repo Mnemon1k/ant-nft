@@ -38,6 +38,7 @@ module.exports = {
 				unnamedComponents: 'arrow-function',
 			},
 		],
+		'js/max-attributes-per-line': '2',
 		'max-len': [2, 550],
 		'no-multiple-empty-lines': [
 			'error',
