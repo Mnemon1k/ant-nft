@@ -1,5 +1,5 @@
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer/Footer';
+import Header from '@/components/Header/Header';
 import { ThemeProvider } from 'next-themes';
 import Script from 'next/script';
 
@@ -8,8 +8,8 @@ import '/styles/globals.css';
 export default function App({ Component, pageProps }) {
 	return (
 		<ThemeProvider attribute="class">
-			<div className="dark:bg-nft-dark bg-white min-h-screen dark:text-white text-nft-black-1">
-				<Navbar />
+			<div className="dark:bg-nft-dark bg-white  dark:text-white text-nft-black-1 font-poppins">
+				<Header />
 				<Component {...pageProps} />
 				<Footer />
 			</div>
