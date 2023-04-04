@@ -3,25 +3,25 @@ const SocialList = () => {
 		<ul className="flex">
 			<li className="m-3">
 				<a className="text-lg hover:text-nft-barbi" href="#">
-					<i class=" fa-brands fa-instagram"></i>
+					<i className=" fa-brands fa-instagram"></i>
 				</a>
 			</li>
 
 			<li className="m-3">
 				<a className="text-lg hover:text-nft-barbi" href="#">
-					<i class=" fa-brands fa-facebook"></i>
+					<i className=" fa-brands fa-facebook"></i>
 				</a>
 			</li>
 
 			<li className="m-3">
 				<a className="text-lg hover:text-nft-barbi" href="#">
-					<i class=" fa-brands fa-discord"></i>
+					<i className=" fa-brands fa-discord"></i>
 				</a>
 			</li>
 
 			<li className="m-3">
 				<a className="text-lg hover:text-nft-barbi" href="#">
-					<i class=" fa-brands fa-twitter"></i>
+					<i className=" fa-brands fa-twitter"></i>
 				</a>
 			</li>
 		</ul>

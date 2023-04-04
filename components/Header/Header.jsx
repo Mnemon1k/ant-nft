@@ -28,7 +28,9 @@ const Header = () => {
 		<nav className="flex-between w-full fixed top-0 left-0 z-10 sm:py-2 py-4 sm:px-2 px-8 flex-row border-b dark:bg-nft-dark bg-white dark:border-nft-black-1 border-nft-gray-1">
 			<div className="flex flex-row justify-start">
 				<Link href={'/'}>
-					<Logo />
+					<a>
+						<Logo />
+					</a>
 				</Link>
 			</div>
 			<div className="flex menu">

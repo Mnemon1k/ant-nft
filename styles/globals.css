@@ -9,6 +9,10 @@ body {
 	padding-top: 76px;
 }
 
+footer a:hover {
+	color: #eb1484;
+}
+
 @media (max-width: 600px) {
 	body {
 		padding-top: 60px;
