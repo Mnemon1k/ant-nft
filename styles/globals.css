@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* ./styles/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,8 +8,22 @@ body {
 	padding-top: 76px;
 }
 
+h1 {
+	font-size: 28px;
+	font-weight: 600;
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 600;
+}
+
 footer a:hover {
 	color: #eb1484;
+}
+
+footer ul > li + li {
+	margin-top: 8px;
 }
 
 @media (max-width: 600px) {
@@ -29,7 +42,7 @@ footer a:hover {
 	background: linear-gradient(101.12deg, #eb1484 27.35%, #c91cc3 99.99%, #c81cc5 100%, #c81cc5 100%);
 }
 
-.white-bg {
+.bg-white-transparent {
 	background: rgba(255, 255, 255, 0.2);
 }
 
@@ -58,12 +71,6 @@ footer a:hover {
 	transform: scale(1.5);
 }
 
-.ball {
-	top: 2px;
-	left: 2px;
-	transition: transform 0.2s linear;
-}
-
 /*  target the elemenent after the label*/
 .checkbox:checked + .label .ball {
 	transform: translateX(16px);
@@ -79,19 +86,11 @@ footer a:hover {
 	font-size: 9px;
 }
 
-.animated {
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation-duration: 500ms;
-	animation-duration: 500ms;
-}
+/* 
 
-.fadeIn {
-	-webkit-animation-name: fadeIn;
-	animation-name: fadeIn;
-}
+Flex helpers
+
+*/
 
 .flex-center {
 	display: flex;
@@ -129,6 +128,26 @@ footer a:hover {
 	align-items: flex-start;
 }
 
+/* 
+
+Animations
+
+*/
+
+.animated {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-duration: 500ms;
+	animation-duration: 500ms;
+}
+
+.fadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -137,4 +156,10 @@ footer a:hover {
 	to {
 		opacity: 1;
 	}
+}
+
+.ball {
+	top: 2px;
+	left: 2px;
+	transition: transform 0.2s linear;
 }
