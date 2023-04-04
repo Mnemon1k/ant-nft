@@ -38,7 +38,11 @@ const MenuItem = ({ title, href, active }) => {
 				md:py-4
 				mx-3
                 ${!active && 'hover:text-nft-barbi'} 
-                ${active ? 'dark:text-white text-nft-barbi' : ' text-nft-gray-2'} 
+                ${
+									active
+										? 'dark:text-white text-nft-barbi'
+										: ' text-nft-gray-3 dark:text-nft-gray-2 dark:hover:text-nft-barbi'
+								} 
 			`}>
 			<Link href={href}>{title}</Link>
 		</li>
