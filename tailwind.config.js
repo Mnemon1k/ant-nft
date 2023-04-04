@@ -55,7 +55,8 @@ module.exports = {
 			},
 		},
 		screens: {
-			lg: { max: '1800px' },
+			xl: { max: '1600px' },
+			lg: { max: '1200px' },
 			md: { max: '990px' },
 			sm: { max: '600px' },
 			xs: { max: '400px' },
@@ -69,5 +70,5 @@ module.exports = {
 	variants: {
 		extend: {},
 	},
-	plugins: [],
+	plugins: [require('@tailwindcss/aspect-ratio')],
 };
