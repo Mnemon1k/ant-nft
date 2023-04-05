@@ -18,8 +18,9 @@ const CreateNFT = () => {
 	const { theme = 'light' } = useTheme();
 
 	const onDrop = useCallback(async (acceptedFile) => {
-		const url = await uploadToIPFS(acceptedFile[0]);
-		setFileUrl(url);
+		const link = await uploadToIPFS(acceptedFile[0]);
+
+		setFileUrl(link);
 	}, []);
 
 	const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
@@ -30,7 +31,7 @@ const CreateNFT = () => {
 
 	const fileStyle = useMemo(
 		() =>
-			`text-center dark:bg-nft-black-1 bg-white border dark:border-nft-black-1 border-nft-gray-2 flex flex-col items-center px-5 py-14 md:py-10 sm:py-6 rounded-sm border-dashed ${
+			`flex sm:flex-col flex-center flex-row text-center dark:bg-nft-black-1 bg-white border dark:border-nft-black-1 border-nft-gray-2 items-center px-5 py-14 md:py-10 sm:py-6 rounded-sm border-dashed ${
 				isDragActive && 'border-file-active'
 			} ${isDragAccept && 'border-file-accept'} ${isDragReject && 'border-file-reject'}`,
 		[isDragActive, isDragAccept, isDragReject],
@@ -53,21 +54,18 @@ const CreateNFT = () => {
 										width={70}
 										height={70}
 										objectFit="contain"
-										alt="file upload"
 										className={theme === 'light' ? 'filter invert' : ''}
 									/>
 								</div>
 								<p className="text-nft-gray-2 text-sm">Drag and Drop File</p>
 								<p className="text-nft-gray-2 text-sm">or Browse media on your device</p>
 							</div>
-						</div>
-						{fileUrl && (
-							<aside>
-								<div>
-									<img src={fileUrl} alt="asset_file" />
+							{fileUrl && (
+								<div className="sm:w-2/3 w-1/2 ml-10 sm:ml-0 sm:mt-6">
+									<img src={fileUrl} />
 								</div>
-							</aside>
-						)}
+							)}
+						</div>
 					</div>
 				</div>
 				<Input

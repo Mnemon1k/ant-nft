@@ -37,10 +37,16 @@ export const AppProvider = ({ children }) => {
 
 	const uploadToIPFS = async (file) => {
 		try {
-			const qwe = await axios.post('api/upload-nft', file);
+			let formData = new FormData();
+			formData.append('file', file);
 
-			console.log(qwe);
-			console.log(qwe.data);
+			const resp = await axios.post('api/upload-nft', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+
+			return resp?.data?.link || '';
 		} catch (error) {
 			console.log(('Error uploading to IPFS', error));
 		}
