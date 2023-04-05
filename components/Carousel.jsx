@@ -18,7 +18,7 @@ const Buttons = ({ handleScroll }) => {
 					src={images.left}
 					layout="fill"
 					objectFit="contain"
-					className={theme === 'light' && 'filter invert'}
+					className={theme === 'light' ? 'filter invert' : ''}
 				/>
 			</div>
 			<div
@@ -30,7 +30,7 @@ const Buttons = ({ handleScroll }) => {
 					src={images.right}
 					layout="fill"
 					objectFit="contain"
-					className={theme === 'light' && 'filter invert'}
+					className={theme === 'light' ? 'filter invert' : ''}
 				/>
 			</div>
 		</>

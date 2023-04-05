@@ -11,13 +11,15 @@ import Textarea from '@/components/Textarea';
 import { AppContext } from 'context/AppContext';
 
 const CreateNFT = () => {
-	const { appCurrency } = useContext(AppContext);
+	const { uploadToIPFS, appCurrency } = useContext(AppContext);
+
 	const [fileUrl, setFileUrl] = useState(null);
 	const [formInput, setFormInput] = useState({ name: '', description: '', price: '' });
 	const { theme = 'light' } = useTheme();
 
 	const onDrop = useCallback(async (acceptedFile) => {
-		console.log(acceptedFile);
+		const url = await uploadToIPFS(acceptedFile[0]);
+		setFileUrl(url);
 	}, []);
 
 	const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({

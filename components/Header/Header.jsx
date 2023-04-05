@@ -7,11 +7,12 @@ import Logo from './Logo';
 import Menu from './Menu';
 import Button from '../Button';
 import ButtonLink from '../ButtonLink';
+import { AppContext } from 'context/AppContext';
 
 const ButtonGroup = () => {
-	const hasConnected = true;
+	const { connectWallet, currentAccount } = useContext(AppContext);
 
-	return hasConnected ? (
+	return currentAccount ? (
 		<div className="">
 			<ButtonLink className={'mr-3'} href="/create">
 				Create NFT
@@ -19,7 +20,7 @@ const ButtonGroup = () => {
 			<Button outlined>Disconnect</Button>
 		</div>
 	) : (
-		<Button>Connect</Button>
+		<Button onClick={() => connectWallet()}>Connect</Button>
 	);
 };
 
