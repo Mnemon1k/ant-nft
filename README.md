@@ -1,15 +1,15 @@
-## Full stack NFT Marketplace build with Polygon(MATIC), Solidity, Next.js and React.js
+# Basic Sample Hardhat Project
 
-To run the development server use command:
+This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
 
-```bash
-npm run dev
+Try running some of the following tasks:
+
+```shell
+npx hardhat accounts
+npx hardhat compile
+npx hardhat clean
+npx hardhat test
+npx hardhat node
+node scripts/sample-script.js
+npx hardhat help
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Functionality
-
-## Demo
-
-## Stack

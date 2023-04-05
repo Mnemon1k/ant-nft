@@ -1,10 +1,10 @@
-const Input = ({ type = 'text', placeholder = '', title = '', className = '', label }) => {
+const Textarea = ({ placeholder = '', title = '', className = '', label }) => {
 	return (
 		<div>
 			{label && <label className="mt-10 mb-4 md:mt-5 md:mb-2">{label}</label>}
-			<input
+			<textarea
+				rows={5}
 				title={title}
-				type={type}
 				placeholder={placeholder}
 				className={`px-4 rounded-lg outline-none
 						font-normal text-sm
@@ -16,4 +16,4 @@ const Input = ({ type = 'text', placeholder = '', title = '', className = '', la
 	);
 };
 
-export default Input;
+export default Textarea;

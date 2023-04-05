@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone';
 import { useTheme } from 'next-themes';
@@ -7,8 +7,11 @@ import Image from 'next/image';
 import images from '../assets';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import Textarea from '@/components/Textarea';
+import { AppContext } from 'context/AppContext';
 
 const CreateNFT = () => {
+	const { appCurrency } = useContext(AppContext);
 	const [fileUrl, setFileUrl] = useState(null);
 	const [formInput, setFormInput] = useState({ name: '', description: '', price: '' });
 	const { theme = 'light' } = useTheme();
@@ -72,8 +75,7 @@ const CreateNFT = () => {
 					className="w-full py-3"
 					onClick={(e) => setFormInput({ ...formInput, name: e.target.value })}
 				/>
-				<Input
-					type="textarea"
+				<Textarea
 					label="Description"
 					placeholder="NFT Description"
 					className="w-full py-3"
@@ -81,7 +83,7 @@ const CreateNFT = () => {
 				/>
 				<Input
 					type="number"
-					label="Price"
+					label={`Price (${appCurrency})`}
 					placeholder="NFT Price"
 					className="w-full py-3"
 					onClick={(e) => setFormInput({ ...formInput, price: e.target.value })}

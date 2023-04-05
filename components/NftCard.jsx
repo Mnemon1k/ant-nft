@@ -1,9 +1,11 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 import images from '../assets';
+import { useContext } from 'react';
+import { AppContext } from 'context/AppContext';
 
 const NFTCard = ({ nft }) => {
-	// const { nftCurrency } = useContext(NFTContext);
+	const { appCurrency } = useContext(AppContext);
 
 	return (
 		<div>
@@ -16,7 +18,7 @@ const NFTCard = ({ nft }) => {
 						<p className="font-semibold text-lg md:text-sm">{nft.name}</p>
 						<div className="flex-between mt-1 flex-row xs:flex-col xs:items-start xs:mt-3">
 							<p className="font-semibold text-md md:text-xs">
-								{nft.price} <span className="font-normal">ETH</span>{' '}
+								{nft.price} <span className="font-normal">{appCurrency}</span>{' '}
 							</p>
 							{/* <p className="font-semibold text-md md:text-xs">{nft.owner}</p> */}
 						</div>
