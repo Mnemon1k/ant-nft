@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 	const form = new formidable.IncomingForm();
 
 	if (method !== 'POST') {
-		res.setHeader('Allow', ['GET', 'PUT']);
+		res.setHeader('Allow', ['POST']);
 		res.status(405).end(`Method ${method} Not Allowed`);
 		return;
 	}

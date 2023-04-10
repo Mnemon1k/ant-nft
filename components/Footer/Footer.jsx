@@ -19,7 +19,7 @@ const Footer = () => {
 							</Link>
 						</div>
 						<p className="font-semibold text-base mt-6">Get latest updates</p>
-						<div className="flex-between md:w-full min-lg:w-557 w-357 mt-2">
+						<div className="flex-start md:w-full min-lg:w-557 w-357 mt-2">
 							<Input className="w-full h-full" type="email" placeholder="Your email" />
 							<div className="ml-3">
 								<Button size="sm">Send</Button>
@@ -28,7 +28,7 @@ const Footer = () => {
 					</div>
 					<div className="flex flex-1 flex-between-center flex-wrap ml-10 md:ml-0 md:mt-8">
 						<div className="flex-1 justify-start items-start">
-							<h3 className="font-semibold text-lg mb-8">antNFT</h3>
+							<h3 className="font-semibold text-lg mb-8 sm:mb-3">antNFT</h3>
 							<ul>
 								<li>
 									<Link href={'/'} className="text-base font-normal my-3 ">
@@ -53,7 +53,7 @@ const Footer = () => {
 							</ul>
 						</div>
 						<div className="flex-1 justify-start items-start">
-							<h3 className="font-semibold text-lg mb-8">Support</h3>
+							<h3 className="font-semibold text-lg mb-8 sm:mb-3">Support</h3>
 							<ul>
 								<li>
 									<Link href={'/'} className="text-base font-normal my-3 ">

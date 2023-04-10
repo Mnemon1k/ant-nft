@@ -1,8 +1,13 @@
 import { createContext, useEffect, useState } from 'react';
 import { MarketAddress, MarketAddressABI } from './constants';
 import axios from 'axios';
+import Web3Modal from 'web3modal';
+import { ethers } from 'ethers';
 
 export const AppContext = createContext();
+
+const fetchContract = (signerOrProvider) =>
+	new ethers.Contract(MarketAddress, MarketAddressABI, signerOrProvider);
 
 export const AppProvider = ({ children }) => {
 	const [currentAccount, setCurrentAccount] = useState('');
@@ -40,20 +45,95 @@ export const AppProvider = ({ children }) => {
 			let formData = new FormData();
 			formData.append('file', file);
 
-			const resp = await axios.post('api/upload-nft', formData, {
+			const resp = await axios.post('api/upload-img', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
 
-			return resp?.data?.link || '';
+			return resp?.data?.link;
 		} catch (error) {
 			console.log(('Error uploading to IPFS', error));
 		}
 	};
 
+	const nftTransaction = async (url, formInputPrice, isReselling, id) => {
+		const web3modal = new Web3Modal();
+		const connection = await web3modal.connect();
+		const provider = new ethers.providers.Web3Provider(connection);
+		const signer = provider.getSigner();
+
+		const price = ethers.utils.parseUnits(formInputPrice, 'ether');
+		const contract = fetchContract(signer);
+
+		const listingPrice = await contract.getListingPrice();
+
+		const transaction = !isReselling
+			? await contract.createToken(url, price, { value: listingPrice.toString() })
+			: await contract.resellToken(id, price, { value: listingPrice.toString() });
+
+		return await transaction.wait();
+	};
+
+	const createNFT = async (data, imgUrl) => {
+		const { name, description, price } = data;
+
+		if (!name || !description || !price || !imgUrl) return;
+
+		const requesData = { name, description, image: imgUrl };
+
+		try {
+			const resp = await axios.post('api/add-nft-data', requesData);
+			const nftPath = resp?.data?.link;
+			const transaction = await nftTransaction(nftPath, price, false);
+
+			console.log(transaction);
+
+			return { status: 'ok', transaction };
+		} catch (error) {
+			console.log(('Error while updating NFT data', error));
+			return { status: 'error', transaction: error };
+		}
+	};
+
+	const fetchNFTs = async () => {
+		const provider = new ethers.providers.JsonRpcProvider();
+		const contract = fetchContract(provider);
+
+		const data = await contract.fetchMarketItems();
+
+		let items = await Promise.all(
+			data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+				const tokenURI = await contract.tokenURI(tokenId);
+
+				try {
+					const {
+						data: { image, name, description },
+					} = await axios.get(tokenURI);
+					const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
+
+					return {
+						price,
+						tokenId: tokenId.toNumber(),
+						seller,
+						owner,
+						image,
+						name,
+						description,
+						tokenURI,
+					};
+				} catch (error) {
+					console.log('Error while parsing nft #' + tokenId, error);
+				}
+			}),
+		);
+
+		return items.filter((item) => item !== undefined);
+	};
+
 	return (
-		<AppContext.Provider value={{ appCurrency, connectWallet, currentAccount, uploadToIPFS }}>
+		<AppContext.Provider
+			value={{ appCurrency, connectWallet, currentAccount, uploadToIPFS, createNFT, fetchNFTs }}>
 			{children}
 		</AppContext.Provider>
 	);

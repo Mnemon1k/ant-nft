@@ -7,8 +7,21 @@ import { generateId } from 'utils/generateId';
 import images from '../assets';
 import NftCard from '@/components/NftCard';
 import Button from '@/components/Button';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from 'context/AppContext';
 
 const Home = () => {
+	const [items, setItems] = useState([]);
+	const { fetchNFTs } = useContext(AppContext);
+
+	useEffect(async () => {
+		const nfts = await fetchNFTs();
+
+		setItems(nfts);
+
+		console.log(nfts);
+	}, []);
+
 	return (
 		<Page>
 			<Banner baseStyle="text-left">Discover, collect and sell awesome NFT`s</Banner>

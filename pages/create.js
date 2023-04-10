@@ -11,7 +11,7 @@ import Textarea from '@/components/Textarea';
 import { AppContext } from 'context/AppContext';
 
 const CreateNFT = () => {
-	const { uploadToIPFS, appCurrency } = useContext(AppContext);
+	const { uploadToIPFS, appCurrency, createNFT } = useContext(AppContext);
 
 	const [fileUrl, setFileUrl] = useState(null);
 	const [formInput, setFormInput] = useState({ name: '', description: '', price: '' });
@@ -22,6 +22,18 @@ const CreateNFT = () => {
 
 		setFileUrl(link);
 	}, []);
+
+	const createNFThandler = async () => {
+		const { status, transaction } = await createNFT(formInput, fileUrl);
+
+		if (status === 'ok') {
+			setFormInput({ name: '', description: '', price: '' });
+			setFileUrl(null);
+			alert(`NFT created! Tx: ${transaction?.transactionHash}`);
+		} else {
+			alert(`Error while creating NFT! ${transaction?.message}`);
+		}
+	};
 
 	const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
 		onDrop,
@@ -46,22 +58,25 @@ const CreateNFT = () => {
 					<div>
 						<div {...getRootProps()} className={fileStyle}>
 							<input {...getInputProps()} />
-							<div>
-								<p className="mb-6 font-semibold text-xl">JPG, PNG, GIF, SVG, WEBM Max 100mb.</p>
-								<div className="my-12 w-full flex justify-center sm:hidden">
-									<Image
-										src={images.upload}
-										width={70}
-										height={70}
-										objectFit="contain"
-										className={theme === 'light' ? 'filter invert' : ''}
-									/>
+							{!fileUrl && (
+								<div>
+									<p className="mb-6 font-semibold text-xl">JPG, PNG, GIF, SVG, WEBM Max 100mb.</p>
+									<div className="my-12 w-full flex justify-center sm:hidden">
+										<Image
+											src={images.upload}
+											width={70}
+											height={70}
+											objectFit="contain"
+											className={theme === 'light' ? 'filter invert' : ''}
+										/>
+									</div>
+									<p className="text-nft-gray-2 text-sm">Drag and Drop File</p>
+									<p className="text-nft-gray-2 text-sm">or Browse media on your device</p>
 								</div>
-								<p className="text-nft-gray-2 text-sm">Drag and Drop File</p>
-								<p className="text-nft-gray-2 text-sm">or Browse media on your device</p>
-							</div>
+							)}
+
 							{fileUrl && (
-								<div className="sm:w-2/3 w-1/2 ml-10 sm:ml-0 sm:mt-6">
+								<div className="w-2/3">
 									<img src={fileUrl} />
 								</div>
 							)}
@@ -73,23 +88,26 @@ const CreateNFT = () => {
 					label="Name"
 					placeholder="NFT Name"
 					className="w-full py-3"
-					onClick={(e) => setFormInput({ ...formInput, name: e.target.value })}
+					value={formInput.name}
+					onChange={(e) => setFormInput({ ...formInput, name: e.target.value })}
 				/>
 				<Textarea
 					label="Description"
 					placeholder="NFT Description"
 					className="w-full py-3"
-					onClick={(e) => setFormInput({ ...formInput, description: e.target.value })}
+					value={formInput.description}
+					onChange={(e) => setFormInput({ ...formInput, description: e.target.value })}
 				/>
 				<Input
 					type="number"
 					label={`Price (${appCurrency})`}
 					placeholder="NFT Price"
 					className="w-full py-3"
-					onClick={(e) => setFormInput({ ...formInput, price: e.target.value })}
+					value={formInput.price}
+					onChange={(e) => setFormInput({ ...formInput, price: e.target.value })}
 				/>
 				<div className="mt-10 w-full flex justify-center">
-					<Button size="lg" className="rounded-xl">
+					<Button onClick={createNFThandler} size="lg" className="rounded-xl">
 						Create NFT
 					</Button>
 				</div>
