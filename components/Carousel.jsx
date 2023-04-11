@@ -73,7 +73,7 @@ const Carousel = ({ children }) => {
 	});
 
 	return (
-		<div className="relative flex-1 max-w-full flex mt-3" ref={parentRef}>
+		<div className="relative flex-1 max-w-full flex mt-3 px-12 sm:px-9" ref={parentRef}>
 			<div className="flex flex-rwo w-max no-scrollbar overflow-x-scroll select-none" ref={scrollRef}>
 				{children}
 			</div>

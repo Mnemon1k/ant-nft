@@ -3,11 +3,21 @@ import { MarketAddress, MarketAddressABI } from './constants';
 import axios from 'axios';
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
+import { checkIfUrlValid } from 'utils/checkIfUrlValid';
 
 export const AppContext = createContext();
 
 const fetchContract = (signerOrProvider) =>
 	new ethers.Contract(MarketAddress, MarketAddressABI, signerOrProvider);
+
+const getConstact = async () => {
+	const web3modal = new Web3Modal();
+	const connection = await web3modal.connect();
+	const provider = new ethers.providers.Web3Provider(connection);
+	const signer = provider.getSigner();
+
+	return fetchContract(signer);
+};
 
 export const AppProvider = ({ children }) => {
 	const [currentAccount, setCurrentAccount] = useState('');
@@ -58,13 +68,9 @@ export const AppProvider = ({ children }) => {
 	};
 
 	const nftTransaction = async (url, formInputPrice, isReselling, id) => {
-		const web3modal = new Web3Modal();
-		const connection = await web3modal.connect();
-		const provider = new ethers.providers.Web3Provider(connection);
-		const signer = provider.getSigner();
+		const contract = await getConstact();
 
 		const price = ethers.utils.parseUnits(formInputPrice, 'ether');
-		const contract = fetchContract(signer);
 
 		const listingPrice = await contract.getListingPrice();
 
@@ -96,15 +102,14 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-	const fetchNFTs = async () => {
-		const provider = new ethers.providers.JsonRpcProvider();
-		const contract = fetchContract(provider);
-
-		const data = await contract.fetchMarketItems();
-
+	const fetchItems = async (data, contract) => {
 		let items = await Promise.all(
 			data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
 				const tokenURI = await contract.tokenURI(tokenId);
+
+				if (!checkIfUrlValid(tokenURI)) {
+					return undefined;
+				}
 
 				try {
 					const {
@@ -131,9 +136,40 @@ export const AppProvider = ({ children }) => {
 		return items.filter((item) => item !== undefined);
 	};
 
+	const fetchAllNFT = async () => {
+		const provider = new ethers.providers.JsonRpcProvider();
+		const contract = fetchContract(provider);
+		const data = await contract.fetchMarketItems();
+
+		return await fetchItems(data, contract);
+	};
+
+	const fetchListedNFT = async () => {
+		const contract = await getConstact();
+		const data = await contract.fetchItemsListed();
+
+		return await fetchItems(data, contract);
+	};
+
+	const fetchMyNFT = async () => {
+		const contract = await getConstact();
+		const data = await contract.fetchMyNFTs();
+
+		return await fetchItems(data, contract);
+	};
+
 	return (
 		<AppContext.Provider
-			value={{ appCurrency, connectWallet, currentAccount, uploadToIPFS, createNFT, fetchNFTs }}>
+			value={{
+				appCurrency,
+				connectWallet,
+				currentAccount,
+				uploadToIPFS,
+				createNFT,
+				fetchAllNFT,
+				fetchMyNFT,
+				fetchListedNFT,
+			}}>
 			{children}
 		</AppContext.Provider>
 	);

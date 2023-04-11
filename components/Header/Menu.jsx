@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const items = [
-	{ title: 'Explore NFTs', href: '/test' },
-	{ title: 'Listed NFTs', href: '/' },
-	{ title: 'My NFTs', href: '/qwe' },
+	{ title: 'Explore NFTs', href: '/' },
+	{ title: 'Listed NFTs', href: '/listed-nft' },
+	{ title: 'My NFTs', href: '/my-nft' },
 ];
 
 const Menu = () => {

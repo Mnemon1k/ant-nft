@@ -1,7 +1,7 @@
 const Banner = ({ children, baseStyle = '' }) => {
 	return (
 		<div
-			className={`relative w-full flex items-center  z-0 overflow-hidden bg-nft-gradient
+			className={`w-full flex flex-center items-center  z-0 overflow-hidden bg-nft-gradient
                 justify-start mb-6 h-72 sm:h-60 p-12 xs:p-4  xs:h-44 rounded-3xl ${baseStyle}`}>
 			<h3 className="font-bold font-poppins text-white md:w-5/6 w-3/5 md:text-4xl sm:text-2xl xs:text-xl text-5xl leading-70">
 				{children}

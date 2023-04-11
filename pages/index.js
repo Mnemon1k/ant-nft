@@ -12,19 +12,17 @@ import { AppContext } from 'context/AppContext';
 
 const Home = () => {
 	const [items, setItems] = useState([]);
-	const { fetchNFTs } = useContext(AppContext);
+	const { fetchAllNFT } = useContext(AppContext);
 
 	useEffect(async () => {
-		const nfts = await fetchNFTs();
+		const nfts = await fetchAllNFT();
 
 		setItems(nfts);
-
-		console.log(nfts);
 	}, []);
 
 	return (
 		<Page>
-			<Banner baseStyle="text-left">Discover, collect and sell awesome NFT`s</Banner>
+			<Banner baseStyle="text-center">Discover, collect and sell awesome NFT`s</Banner>
 			<section className="py-9">
 				<h1>Best creators</h1>
 				<Carousel>
@@ -46,19 +44,9 @@ const Home = () => {
 						xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-5
 						gap-x-6 gap-y-6
 					">
-					{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+					{items.map((nft) => (
 						<div className="group">
-							<NftCard
-								key={`nft-${i}`}
-								nft={{
-									i,
-									name: `antNft ${i}`,
-									seller: `0x${generateId(2)}...${generateId(4)}`,
-									owner: `0x${generateId(2)}...${generateId(4)}`,
-									description: 'New NFT on sale',
-									price: 10 - i * 0.5,
-								}}
-							/>
+							<NftCard key={nft.tokenId} nft={nft} />
 						</div>
 					))}
 				</div>

@@ -7,7 +7,7 @@ const UserCard = ({ rank, image, title, subtitle }) => {
 	const { appCurrency } = useContext(AppContext);
 
 	return (
-		<div className="md:min-w-190 min-w-240 dark:bg-nft-black-3 bg-white border dark: dark:border-nft-black-3 border-nft-gray-1 rounded-3xl flex flex-col p-4 m-4">
+		<div className="md:min-w-190 min-w-215 dark:bg-nft-black-3 bg-white border dark: dark:border-nft-black-3 border-nft-gray-1 rounded-3xl flex flex-col p-3 m-4">
 			<div className="flex-center w-10 h-10 md:w-8 md:h-8 bg-nft-barbi text-white rounded-full">
 				<p className="font-semibold text-base minlg:text-lg">{rank}</p>
 			</div>
