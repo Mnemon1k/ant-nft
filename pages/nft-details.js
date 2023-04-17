@@ -22,8 +22,16 @@ const NFTDetails = () => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const router = useRouter();
-	const { currentAccount, appCurrency } = useContext(AppContext);
-	let itemsGrid = undefined;
+	const { currentAccount, appCurrency, buyNFT } = useContext(AppContext);
+
+	const handleBuy = async () => {
+		const res = await buyNFT(nft);
+
+		if (res.status === 1) {
+			alert('Success');
+		}
+		router.reload(window.location.pathname);
+	};
 
 	useEffect(() => {
 		if (!router.isReady) return;
@@ -76,7 +84,7 @@ const NFTDetails = () => {
 							List on MarketPlace
 						</Button>
 					) : (
-						<Button onClick={() => {}}>{`Buy for ${nft.price} ${appCurrency}`}</Button>
+						<Button onClick={handleBuy}>{`Buy for ${nft.price} ${appCurrency}`}</Button>
 					)}
 				</div>
 			</div>

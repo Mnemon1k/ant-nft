@@ -91,7 +91,7 @@ export const AppProvider = ({ children }) => {
 		try {
 			const resp = await axios.post('api/add-nft-data', requesData);
 			const nftPath = resp?.data?.link;
-			const transaction = await nftTransaction(nftPath, price, false);
+			const transaction = await nftTransaction(nftPath, price);
 
 			console.log(transaction);
 
@@ -100,6 +100,27 @@ export const AppProvider = ({ children }) => {
 			console.log(('Error while updating NFT data', error));
 			return { status: 'error', transaction: error };
 		}
+	};
+
+	const resellNFT = async (price, tokenId) => {
+		try {
+			const transaction = await nftTransaction('', price, true, tokenId);
+
+			console.log(transaction);
+
+			return { status: 'ok', transaction };
+		} catch (error) {
+			console.log(('Error while updating NFT data', error));
+			return { status: 'error', transaction: error };
+		}
+	};
+
+	const buyNFT = async (nft) => {
+		const contract = await getConstact();
+		const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
+		const transaction = await contract.createMarketSale(nft.tokenId, { value: price });
+
+		return await transaction.wait();
 	};
 
 	const fetchItems = async (data, contract) => {
@@ -165,10 +186,12 @@ export const AppProvider = ({ children }) => {
 				connectWallet,
 				currentAccount,
 				uploadToIPFS,
+				resellNFT,
 				createNFT,
 				fetchAllNFT,
 				fetchMyNFT,
 				fetchListedNFT,
+				buyNFT,
 			}}>
 			{children}
 		</AppContext.Provider>
